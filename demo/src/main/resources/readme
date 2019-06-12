@@ -1,0 +1,59 @@
+1.用户发送request请求(url地址)到前端控制器中。
+
+　　　　在spring mvc中，前端控制器相当于mvc中的Controller层次，其名称为DispatchcerServlet。作用是接受请求并响应，相当于转发器。
+
+2.DispatcherServlet将url地址发送到HandlerMapping处理器映射器。
+
+　　　　为什么出现了一个HandlerMapping？因为用户发送的是url，而不同类的链接应该由不同的模型处理。可以通过HandlerMapping找到具体的模型进行处理。　　　　
+
+　　  　HandlerMapping。通过xml配置，注解查找Handler。
+
+　　　  　　Handler是什么？Handler是处理器，处理器相当于模型(M),Handler有多种。
+
+3.HandlerMapping返回一个执行链HandlerExecutionChain对象给DispatcherServlet。
+
+　　　　HandlerExecutionChain对象里面包含具体的Handler信息。　　
+
+4.DispatcherServlet拿到HandlerExcutionChain对象，将其发送给HandlerAdapter处理适配器。
+
+　　　　处理器适配器：也是一种设计模式，它可以调用不同的Handler。例如：变压器。提供的电压一样，经过变压器之后，可以转成220v，300v电压。
+
+5.HandlerAdapter执行具体的Handler。
+
+　　　　按照HandlerAdapter的规则执行Handler。因此，编写Handler时，要参照HandlerAdapter规范。
+
+　　　　Handler是后端控制器，叫做Handle处理器，常称为Controller。在MVC中相当于model。
+
+6.Handler处理器处理后，返回ModelAndView对象(模型和视图的结合体)给HandlerAdapter。
+
+　　　　ModelAndView是spring mvc框架底层对象，包括model和view数据。
+
+7.HandlerAdapter返回ModelAndView到DispatcherServlet。
+
+8.DispatcherServlet将ModelAndView对象发送给视图解析器，请求进行视图解析。
+
+　　　　根据逻辑视图名解析成真正的视图。
+
+9.视图解析器返回view给DispatcherServlet。
+
+　　　　view是视图(包含jsp,fremaker,excel,pdf...)。它是一个接口，实现类支持不同的view类型。
+
+10.DispatcherServlet请求进行视图渲染。
+
+　　　　视图渲染将模型数据(在ModelAndView对象中)填充到request域。
+
+11.DispatcherServlet给用户reponse响应结果。
+
+
+
+总结：
+
+　　1.前端控制器DispatchServlet几乎与每个组件都有信息传递，因此它非常重要，相当于中央处理器。有了它，减少了其他组件的耦合性。
+
+　　2.spring mvc里面有两处体现了可扩展性。　　
+
+　　　　2.1.一种是HandlerAdapter管理不同的Handler，因此Handler的增加不会导致其他地方改动。
+
+　　　　2.2.另一种是视图解析器。它可以解析不同的视图，就算视图增加，其他地方也不需要改动。
+
+　　3.需要程序员开发的是jsp视图和handler处理器。
