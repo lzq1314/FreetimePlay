@@ -27,5 +27,6 @@
 
     <mappers>
         <mapper resource="mybatis/mapper/mysql/test_mapper.xml"/>
+        <mapper resource="mybatis/mapper/mysql/user_mapper.xml"/>
     </mappers>
 </configuration>
